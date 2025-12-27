@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>PHY Layer Multi-Agent Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <style>
+      .mermaid svg {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+      .nodeLabel {
+        line-height: 1.2;
+        font-size: 16px;
+      }
+      .logo-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        background: transparent;
+        padding: 0px;
+        border-radius: 0px;
+        display: inline-block;
+      }
+      .mermaid svg g.edgePath path {
+        stroke-width: 3px !important;
+        stroke: #64748b !important;
+        fill: none !important;
+      }
+      .mermaid svg marker path {
+        fill: #64748b !important;
+        stroke: none !important;
+      }
+      g.cluster rect {
+        fill: #f8fafc !important;
+        stroke: #e2e8f0 !important;
+        stroke-width: 2px !important;
+      }
+      g.cluster text {
+        font-family: 'ui-sans-serif', 'system-ui', 'sans-serif' !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        fill: #475569 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .katex-display {
+        margin: 1em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+    </style>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "mermaid": "https://esm.sh/mermaid@11.4.0",
+    "react-zoom-pan-pinch": "https://esm.sh/react-zoom-pan-pinch@3.4.4",
+    "@google/genai": "https://esm.sh/@google/genai@1.33.0",
+    "katex": "https://esm.sh/katex@0.16.11",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+    <script>
+      if (!HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) {
+        alert('Your browser does not support import maps. Please use a modern browser like Chrome, Edge, or the latest Firefox (v102+).');
+      }
+    </script>
+  </head>
+  <body class="bg-neutral-100 text-neutral-900 overflow-x-hidden">
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+  </body>
+</html>

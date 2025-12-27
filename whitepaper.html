@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Paper: Autonomous PHY Layer Development</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --text: #334155;
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Merriweather', 'Georgia', serif;
+            line-height: 1.8;
+            color: var(--text);
+            margin: 0;
+            background-color: #fff;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .subtitle {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        h2 {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        h3 {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        h4 {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .diagram-block {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        .reference-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .reference-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .reference-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            color: var(--accent);
+        }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #475569;
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 0 5px;
+            font-size: 0.8rem;
+        }
+        footer {
+            background: var(--light-bg);
+            padding: 3rem 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #64748b;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+        .btn-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            z-index: 100;
+        }
+        .btn-back:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <a href="/" class="btn-back">
+        ← Back to App
+    </a>
+
+    <header>
+        <h1>Autonomous PHY Layer Development:<br>A Multi-Agent AI Architecture</h1>
+        <div class="subtitle">Accelerating 5G/6G Workflows with Hybrid RAG and Agentic Orchestration</div>
+        <div class="meta">
+            <span class="tag">Technical White Paper</span>
+            <span class="tag">Version 1.0</span>
+            <span class="tag">Telecom AI</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section>
+            <h2>Abstract</h2>
+            <p>
+                The complexity of modern telecommunications Physical Layer (PHY) development—spanning dense C++ codebases, intricate 3GPP specifications, and massive volumetric log data—has historically created a high barrier to automation. This paper presents a novel <strong>Multi-Agent AI Architecture</strong> designed to autonomously assist in PHY development. By combining <strong>Hybrid Retrieval-Augmented Generation (RAG)</strong> (integrating both Vector Databases and Knowledge Graphs) with a <strong>Self-Correcting Agentic Workflow</strong>, the system demonstrates the capability to generate spec-compliant code, perform root-cause analysis on FAPI logs, and synthesize edge-case Test Vectors (TVs) with high accuracy. We discuss the system design, the necessity of air-gapped deployment strategies, and the integration of open-source Large Language Models (LLMs) like Llama 3 for IP protection.
+            </p>
+        </section>
+
+        <section>
+            <h2>1. The Challenge: Complexity at the Edge</h2>
+            <p>
+                Developing the Physical Layer for 5G and emerging 6G standards involves navigating a rigid and massive regulatory framework. Engineers must simultaneously translate 3GPP Technical Specifications (TS 38.211, 38.212) into highly optimized C++ or Assembly code while debugging real-time issues using DSP traces and FAPI (Functional Application Platform Interface) logs.
+            </p>
+            <p>
+                Traditional "Copilot" AI approaches often fail in this domain due to two main factors:
+            </p>
+            <ol>
+                <li><strong>Lack of Structured Context:</strong> Standard LLMs hallucinate when asked about specific relations in specs (e.g., "What are the DMRS ports for Type 2 allocation in Rel-16?"). They treat text as unstructured data, missing the strict hierarchical dependencies of the standard.</li>
+                <li><strong>Context Window Limitations:</strong> A single log file for a 5G slot failure can generate megabytes of text. Dumping raw logs into a prompt is inefficient and often exceeds token limits.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>2. The Solution: Hybrid RAG & Agentic Control</h2>
+            <p>
+                To address these challenges, we propose a modular architecture comprising four distinct "Planes" of operation. This separation of concerns allows for specialized handling of data, logic, and storage.
+            </p>
+
+            <div class="diagram-block">
+                <strong>Architectural Planes</strong>
+                <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                    <li>📥 <strong>Input Plane:</strong> Ingests Code, Logs, and Specs.</li>
+                    <li>🗄️ <strong>Knowledge Plane:</strong> Hybrid Storage (Vector + Graph).</li>
+                    <li>🧠 <strong>Agentic Control Plane:</strong> Orchestrator, Router, Grader.</li>
+                    <li>📤 <strong>Output Plane:</strong> Code, Analysis, Reports.</li>
+                </ul>
+            </div>
+
+            <h3>2.1. Hybrid Retrieval Strategy</h3>
+            <p>
+                A key innovation is the use of <strong>Hybrid RAG</strong>. We employ two distinct retrieval mechanisms tailored to the data type:
+            </p>
+            <ul>
+                <li><strong>Vector Database (ChromaDB):</strong> Stores dense embeddings of unstructured data such as C++ source code comments, error logs, and git commit history. This enables "fuzzy" semantic search (e.g., "Find code similar to the PDSCH scrambler").</li>
+                <li><strong>Knowledge Graph (Neo4j):</strong> Stores the 3GPP and O-RAN specifications as a structured ontology. Nodes represent entities (e.g., "SCS", "Bandwidth Part", "DCI Format") and edges represent relationships (e.g., "DEFINED_IN", "DEPENDS_ON"). This allows the AI to answer structured queries with 100% factual consistency.</li>
+            </ul>
+
+            <blockquote>
+                "The Knowledge Graph acts as the 'Ground Truth' constraint, preventing the LLM from hallucinating non-compliant parameters."
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>3. The Agentic Workflow</h2>
+            <p>
+                The system operates not as a single chatbot, but as a team of specialized agents coordinated by a central brain.
+            </p>
+
+            <h3>3.1. The Multi-Agent Orchestrator</h3>
+            <p>
+                Powered by models like <strong>GPT-4o</strong> or <strong>Llama 3 70B</strong>, the Orchestrator maintains the state of the conversation (using LangGraph). It breaks down a user query—"Why did throughput drop in Slot 4?"—into sub-tasks:
+            </p>
+            <ol>
+                <li>Fetch FAPI logs for Slot 4.</li>
+                <li>Retrieve decoding parameters from the codebase.</li>
+                <li>Compare parameters against 3GPP Rel-15 specs.</li>
+            </ol>
+
+            <h3>3.2. Query Router & Reranker</h3>
+            <p>
+                The <strong>Query Router</strong> (🧭) intercepts the sub-tasks and directs them to the correct index. A question about "3GPP TS 38.214" goes to the Graph; a snippet of error log goes to the Vector DB. 
+            </p>
+            <p>
+                The <strong>Cross-Encoder Reranker</strong> (⚖️) then acts as a fusion layer. It takes the top-k results from both databases and re-scores them based on deep semantic relevance, ensuring the Orchestrator receives only the most pertinent 5-10 chunks of context.
+            </p>
+
+            <h3>3.3. Self-Correction & Grading (CRAG)</h3>
+            <p>
+                In standard RAG, if the retrieval is bad, the generation is bad. Our architecture implements <strong>Corrective RAG (CRAG)</strong> via a dedicated <strong>Grader Agent</strong> (🛡️).
+            </p>
+            <p>
+                Before showing an answer to the user, the Grader validates it against the retrieved documents. If the code generated uses a deprecated API or violates a spec constraint, the Grader rejects it and triggers a "Rewrite/Retry" loop. This self-healing mechanism drastically reduces logical errors in code generation.
+            </p>
+        </section>
+
+        <section>
+            <h2>4. Deployment: Air-Gapped & Secure</h2>
+            <p>
+                Telecom IP is highly sensitive. Cloud-only solutions are often non-starters. This architecture is designed to be fully deployable in an air-gapped environment.
+            </p>
+            <ul>
+                <li><strong>Local Inference:</strong> The <code>AI Systems Core</code> can swap out OpenAI APIs for local inference servers like <strong>vLLM</strong> or <strong>TGI</strong> running open-weights models (Llama 3, Mixtral, Qwen 2.5-Coder).</li>
+                <li><strong>Quantization:</strong> Using GGUF or AWQ quantization allows massive 70B parameter models to run on standard workstation GPUs (e.g., dual RTX 4090s or A6000s) with minimal loss in reasoning capability.</li>
+                <li><strong>Containerization:</strong> All components—ChromaDB, Neo4j, the API Server, and the UI—are containerized via Docker, ensuring consistent deployment across secure internal networks.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. References & Architectural Inspirations</h2>
+            <p>
+                This architecture aggregates best practices from recent academic research in retrieval systems and agentic frameworks. Below is a detailed breakdown of the inspiration and connection logic for each block.
+            </p>
+
+            <div class="reference-item">
+                <div class="reference-title">⚙️ Multi-Agent Orchestrator (SB)</div>
+                <div class="reference-meta">Inspiration: LangGraph, AutoGen</div>
+                <p>
+                    <strong>Concept:</strong> Traditional linear chains (LangChain) are insufficient for complex problem-solving. We utilize a cyclic graph architecture (StateGraph) where the Orchestrator acts as the "Controller" node.
+                </p>
+                <p>
+                    <strong>Connection Detail:</strong> The <code>SB -> QT -> SC/SK -> SB</code> loop represents the "Plan-and-Execute" pattern. The Orchestrator delegates retrieval to the Router (QT) and waits for state updates, rather than doing everything in one prompt.
+                </p>
+            </div>
+
+            <div class="reference-item">
+                <div class="reference-title">🛡️ Self-Correction & Grader (SE)</div>
+                <div class="reference-meta">Inspiration: Corrective RAG (CRAG) [Yan et al. 2024], Self-RAG [Asai et al. 2023]</div>
+                <p>
+                    <strong>Concept:</strong> LLMs are prone to "confident hallucinations." The Grader implements a binary classification step (Relevant / Not Relevant) on retrieved documents and a verification step (Supported / Not Supported) on generated answers.
+                </p>
+                <p>
+                    <strong>Connection Detail:</strong> The unique feedback loop <code>SE -> QT</code> labeled "Reject/Rewrite" is the hallmark of CRAG. It allows the system to admit "I didn't find the answer" and modify the search query dynamically.
+                </p>
+            </div>
+
+            <div class="reference-item">
+                <div class="reference-title">🕸️ Knowledge Graph (SK)</div>
+                <div class="reference-meta">Inspiration: GraphRAG [Microsoft Research 2024], 3GPP TS 38 series</div>
+                <p>
+                    <strong>Concept:</strong> Vector search fails at structured reasoning (e.g., "List all dependencies of Feature X"). GraphRAG combines vector embedding with graph traversal to answer global questions about the dataset.
+                </p>
+                <p>
+                    <strong>Connection Detail:</strong> The connection <code>E -> Build Ontology -> SK</code> represents the parsing pipeline where XML/Word spec documents are converted into RDF triples (Subject-Predicate-Object).
+                </p>
+            </div>
+
+            <div class="reference-item">
+                <div class="reference-title">🧭 Query Router (QT)</div>
+                <div class="reference-meta">Inspiration: Logical Routing / Intent Classification</div>
+                <p>
+                    <strong>Concept:</strong> Not all queries need a vector search. Some are navigational. The Router uses a small, fast LLM call to classify intent and extract metadata filters (e.g., Release="Rel16").
+                </p>
+                <p>
+                    <strong>Connection Detail:</strong> The forked path <code>QT -> SC</code> (Semantic) vs <code>QT -> SK</code> (Graph) optimizes latency by preventing unnecessary lookups in the wrong index.
+                </p>
+            </div>
+
+            <div class="reference-item">
+                <div class="reference-title">📥 Input Plane (A, B, D, E)</div>
+                <div class="reference-meta">Inspiration: O-RAN Management Plane Specifications, Small Cell Forum (SCF) FAPI</div>
+                <p>
+                    <strong>Concept:</strong> The PHY layer is data-rich but format-heavy. We explicitly model FAPI logs and C++ intrinsic code as distinct data types requiring specialized parsers (e.g., Clang AST for code, Regex/Grok for logs).
+                </p>
+            </div>
+
+            <div class="reference-item">
+                <div class="reference-title">🧠 AI Systems Core (AI)</div>
+                <div class="reference-meta">Inspiration: vLLM, PagedAttention, llama.cpp</div>
+                <p>
+                    <strong>Concept:</strong> Separation of "Reasoning" (Agent logic) from "Compute" (Token generation). This abstraction allows the underlying model to be swapped (Cloud GPT-4o <-> Local Llama 3) without changing the agent code.
+                </p>
+                <p>
+                    <strong>Connection Detail:</strong> The loop <code>SB -> LLM Prompt -> AI</code> and <code>AI -> Generated Tokens -> SB</code> illustrates the request-response cycle of the inference engine.
+                </p>
+            </div>
+
+        </section>
+
+        <section>
+            <h2>6. Conclusion</h2>
+            <p>
+                The PHY Layer Multi-Agent AI Architecture represents a paradigm shift in telecom software engineering. By moving from simple "chatbots" to a structured, agentic system backed by Knowledge Graphs, we enable AI to handle the rigor and precision required for 5G/6G development. This system not only accelerates debugging and code generation but does so with a layer of automated verification that builds trust in AI-assisted workflows.
+            </p>
+        </section>
+
+    </div>
+
+    <footer>
+        &copy; 2025 GenAI PHY Architecture Team. All Rights Reserved.<br>
+        Built with React, Mermaid.js, and Tailwind CSS.
+    </footer>
+
+</body>
+</html>
