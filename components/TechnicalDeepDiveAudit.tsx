@@ -1,4 +1,3 @@
-
 import React from 'react';
 import KaTeX from './KaTeX';
 import MermaidDiagram from './MermaidDiagram';
@@ -42,9 +41,14 @@ graph TD
     style Add fill:#fff,stroke:#16a34a
 `;
 
+/**
+ * TechnicalDeepDiveAudit Component
+ * Provides a mathematical audit and proofs for the underlying architecture.
+ */
 const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center pb-24">
+      {/* Navigation Header */}
       <nav className="w-full bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 px-8 py-4 flex items-center justify-between shadow-sm">
         <button 
           onClick={onBack} 
@@ -69,6 +73,7 @@ const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) =>
           </p>
         </header>
 
+        {/* --- EVOLUTIONARY TRANSITION SECTION --- */}
         <section className="mb-24">
           <div className="flex items-center gap-4 mb-12">
             <div className="h-px bg-slate-200 flex-grow"></div>
@@ -77,6 +82,8 @@ const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) =>
           </div>
 
           <div className="space-y-12">
+            
+            {/* Logic Step 1: RNN & The Vanishing Gradient Problem */}
             <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-xl overflow-hidden relative group">
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <div className="text-[80px] font-black text-slate-900 select-none uppercase">RNN</div>
@@ -86,20 +93,21 @@ const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) =>
                 The Sequential Recurrence Bottleneck
               </h3>
               <p className="text-sm text-slate-600 mb-8 leading-relaxed max-w-3xl">
-                Standard RNNs suffer from the vanishing gradient problem. During backpropagation through time (BPTT), gradients decay exponentially.
+                Standard RNNs suffer from the vanishing gradient problem. During backpropagation through time (BPTT), gradients are repeatedly multiplied by weights, causing them to decay exponentially.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
                   <div className="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Hidden State Update</div>
-                  <KaTeX math={`h_t = \\sigma(W_{hh} h_{t-1} + W_{xh} x_t + b)`} block />
+                  <KaTeX math={'h_t = \\sigma(W_{hh} h_{t-1} + W_{xh} x_t + b)'} block />
                 </div>
                 <div className="p-8 bg-slate-900 rounded-3xl border border-slate-800 text-white text-center">
                   <div className="text-[10px] font-black text-slate-500 uppercase mb-4 tracking-widest">Gradient Decay Law</div>
-                  <KaTeX math={`\\frac{\\partial h_T}{\\partial h_t} = \\prod_{k=t+1}^T W_{hh}^T \\text{diag}(\\sigma'(...))`} block />
+                  <KaTeX math={'\\frac{\\partial h_T}{\\partial h_t} = \\prod_{k=t+1}^T W_{hh}^T \\text{diag}(\\sigma\'(...))'} block />
                 </div>
               </div>
             </div>
 
+            {/* Logic Step 2: LSTM - WHERE GATING SOLVED THE GRADIENT */}
             <div className="bg-white rounded-[2.5rem] p-10 border border-emerald-100 shadow-xl overflow-hidden relative group border-2">
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <div className="text-[80px] font-black text-emerald-900 select-none uppercase">LSTM</div>
@@ -109,28 +117,21 @@ const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) =>
                 The Constant Error Carousel
               </h3>
               <p className="text-sm text-slate-600 mb-8 leading-relaxed max-w-3xl">
-                LSTM introduces Gating to selectively pass information, creating a "Constant Error Carousel" for stable long-sequence flow.
+                LSTM introduces the "Cell State" and "Gating" mechanisms to selectively pass information. This creates a "Constant Error Carousel" that allows gradients to flow over long sequences without vanishing.
               </p>
               
               <div className="mb-10">
-                {/* Fixed missing props: activeFlow, flowColor, onNodeClick */}
-                <MermaidDiagram 
-                  chart={LSTM_CELL_DIAGRAM} 
-                  height="400px" 
-                  activeFlow={null} 
-                  flowColor="#16a34a" 
-                  onNodeClick={() => {}} 
-                />
+                <MermaidDiagram chart={LSTM_CELL_DIAGRAM} height="400px" />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="p-8 bg-slate-50 rounded-3xl border border-slate-100">
                   <div className="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Forget Gate</div>
-                  <KaTeX math={`f_t = \\sigma(W_f \\cdot [h_{t-1}, x_t] + b_f)`} block />
+                  <KaTeX math={'f_t = \\sigma(W_f \\cdot [h_{t-1}, x_t] + b_f)'} block />
                 </div>
                 <div className="p-8 bg-emerald-900 rounded-3xl border border-emerald-800 text-white text-center">
                   <div className="text-[10px] font-black text-emerald-500 uppercase mb-4 tracking-widest">Cell State Update</div>
-                  <KaTeX math={`C_t = f_t \\otimes C_{t-1} + i_t \\otimes \\tilde{C}_t`} block />
+                  <KaTeX math={'C_t = f_t \\otimes C_{t-1} + i_t \\otimes \\tilde{C}_t'} block />
                 </div>
               </div>
             </div>
@@ -148,4 +149,5 @@ const TechnicalDeepDiveAudit: React.FC<{ onBack: () => void }> = ({ onBack }) =>
   );
 };
 
+// Fixed: Added missing default export to resolve "Module has no default export" error in App.tsx
 export default TechnicalDeepDiveAudit;

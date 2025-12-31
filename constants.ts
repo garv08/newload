@@ -15,24 +15,17 @@ import {
   LOGO_COMPASS, 
   LOGO_CACHE,
   LOGO_BOOK
-} from './logos.ts';
+} from './logos';
 
-export type FlowDefinition = {
-  nodes: string[];
-  edges: [string, string][];
-};
-
-export type NodeDetail = {
+export interface NodeDetail {
   title: string;
-  description: string;
-  logo?: string;
-  // Necessary fields for current UI implementation
   icon: string;
   color: string;
+  description: string;
   inputs: string[];
   outputs: string[];
   specs: string[];
-};
+}
 
 export const NODE_DETAILS: Record<string, NodeDetail> = {
   U: {
@@ -235,112 +228,124 @@ export const SLIDE_DECK = [
     content: [
       "A Multi-Agent system designed for autonomous PHY layer development.",
       "Combines Knowledge Graphs for strict specs and Vector DBs for messy logs.",
-      "Implements self-correction loops to ensure bit-exact engineering compliance."
+      "Implements a 'Self-Correction' loop to ensure 100% spec compliance.",
+      "Features Semantic Caching to reduce latency for common queries."
     ]
   }
 ];
 
-export const getDiagramDefinition = (direction: 'LR' | 'TD') => `
+export const getDiagramDefinition = (direction: 'LR' | 'TD' = 'LR') => `
 flowchart ${direction}
-    U["${NODE_DETAILS.U.icon} ${NODE_DETAILS.U.title}"]
     
-    subgraph Inputs ["Technical Knowledge Sources"]
-        direction ${direction}
-        A["${NODE_DETAILS.A.icon} ${NODE_DETAILS.A.title}"]
-        B["${NODE_DETAILS.B.icon} ${NODE_DETAILS.B.title}"]
-        C["${NODE_DETAILS.C.icon} ${NODE_DETAILS.C.title}"]
-        D["${NODE_DETAILS.D.icon} ${NODE_DETAILS.D.title}"]
+    U["<div style='text-align:center;background:#f0f9ff;padding:10px;border-radius:15px;border:2px solid #7dd3fc'><img src='${LOGO_USER}' width='60' height='60' class='logo-img'/><div><b style='font-size:24px;color:#0369a1'>End User</b></div></div>"]
+
+    CACHE["<div style='text-align:center;background:#fff7ed;padding:10px;border-radius:15px;border:2px solid #fdba74'><img src='${LOGO_CACHE}' width='50' height='50' class='logo-img'/><div><b style='font-size:24px;color:#c2410c'>Semantic Cache</b><br/><span style='color:#ea580c'>Redis/Vector</span></div></div>"]
+
+    subgraph InputLayer [" 📥 Input Ingestion Plane "]
+        style InputLayer fill:#fffbeb,stroke:#fcd34d,stroke-width:2px,stroke-dasharray: 5 5
+        A["<div style='text-align:center;background:#fffdfa;padding:10px;border-radius:12px;border:1px solid #fde68a'><div style='font-size:30px'>💻</div><b style='font-size:24px;color:#92400e'>PHY Codebase</b><br/>C++, Assembly</div>"]
+        B["<div style='text-align:center;background:#fffdfa;padding:10px;border-radius:12px;border:1px solid #fde68a'><div style='font-size:30px'>📊</div><b style='font-size:24px;color:#92400e'>Logs & Traces</b><br/>FAPI, DSP</div>"]
+        C["<div style='text-align:center;background:#fffdfa;padding:10px;border-radius:12px;border:1px solid #fde68a'><img src='${LOGO_BOOK}' width='50' height='50'/><br/><b style='font-size:24px;color:#92400e'>Books & Web</b></div>"]
+        D["<div style='text-align:center;background:#fffdfa;padding:10px;border-radius:12px;border:1px solid #fde68a'><div style='font-size:30px'>🧪</div><b style='font-size:24px;color:#92400e'>Test Vectors</b></div>"]
+        
+        subgraph Standards [" 📜 Specifications "]
+            style Standards fill:#fffbeb,stroke:#fef3c7,stroke-width:1px,stroke-dasharray: 3 3
+            E1["<div style='text-align:center;background:#fff;padding:8px;border-radius:10px;border:1px solid #fcd34d'><img src='${LOGO_3GPP}' width='60' height='50'/><br/><b style='font-size:22px;color:#713f12'>3GPP</b></div>"]
+            E2["<div style='text-align:center;background:#fff;padding:8px;border-radius:10px;border:1px solid #fcd34d'><img src='${LOGO_ORAN}' width='60' height='40'/><br/><b style='font-size:22px;color:#713f12'>O-RAN</b></div>"]
+            E3["<div style='text-align:center;background:#fff;padding:8px;border-radius:10px;border:1px solid #fcd34d'><img src='${LOGO_FAPI}' width='50' height='50'/><br/><b style='font-size:22px;color:#713f12'>SCF FAPI</b></div>"]
+        end
     end
 
-    subgraph Specs ["Standardization Frameworks"]
-        direction ${direction}
-        E1["${NODE_DETAILS.E1.icon} ${NODE_DETAILS.E1.title}"]
-        E2["${NODE_DETAILS.E2.icon} ${NODE_DETAILS.E2.title}"]
-        E3["${NODE_DETAILS.E3.icon} ${NODE_DETAILS.E3.title}"]
+    subgraph DataLayer [" 🗄️ Knowledge & Retrieval Plane "]
+        style DataLayer fill:#f5f3ff,stroke:#c4b5fd,stroke-width:2px,stroke-dasharray: 5 5
+        SC["<div style='text-align:center;background:#f0fdf4;padding:10px;border-radius:15px;border:2px solid #86efac'><img src='${LOGO_CHROMA}' width='70' height='70' class='logo-img'/><div><b style='font-size:24px;color:#065f46'>Vector DB</b></div></div>"]
+        SK["<div style='text-align:center;background:#f5f3ff;padding:10px;border-radius:15px;border:2px solid #c4b5fd'><img src='${LOGO_NEO4J}' width='70' height='70' class='logo-img'/><div><b style='font-size:24px;color:#5b21b6'>Knowledge Graph</b></div></div>"]
+        RR["<div style='text-align:center;background:#fff7ed;padding:10px;border-radius:15px;border:2px solid #fdba74'><img src='${LOGO_RERANKER}' width='60' height='60' class='logo-img'/><div><b style='font-size:24px;color:#9a3412'>Reranker</b></div></div>"]
     end
 
-    CACHE["${NODE_DETAILS.CACHE.icon} ${NODE_DETAILS.CACHE.title}"]
-    
-    subgraph Storage ["Ground Truth Engines"]
-        SC[("${NODE_DETAILS.SC.icon} ${NODE_DETAILS.SC.title}")]
-        SK["${NODE_DETAILS.SK.icon} ${NODE_DETAILS.SK.title}"]
+    subgraph AgentLayer [" 🧠 Agentic Control Plane "]
+        style AgentLayer fill:#fff1f2,stroke:#fda4af,stroke-width:2px,stroke-dasharray: 5 5
+        SB["<div style='text-align:center;background:#fff1f2;padding:10px;border-radius:15px;border:2px solid #fda4af'><img src='${LOGO_GEAR}' width='60' height='60' class='logo-img'/><div><b style='font-size:24px;color:#9f1239'>Multi-Agent Orchestrator</b></div></div>"]
+        SE["<div style='text-align:center;background:#fff1f2;padding:10px;border-radius:15px;border:2px solid #fda4af'><img src='${LOGO_SHIELD}' width='60' height='60' class='logo-img'/><div><b style='font-size:24px;color:#9f1239'>Self-Correction</b></div></div>"]
+        QT["<div style='text-align:center;background:#fff1f2;padding:10px;border-radius:15px;border:2px solid #fda4af'><img src='${LOGO_COMPASS}' width='60' height='60' class='logo-img'/><div><b style='font-size:24px;color:#9f1239'>Query Router</b></div></div>"]
+        P2C["<div style='text-align:center;background:#eff6ff;padding:10px;border-radius:15px;border:2px solid #3b82f6'><div style='font-size:24px'>📄💻</div><div><b style='font-size:24px;color:#1d4ed8'>Paper2Code</b><br/><span style='font-size:12px;color:#2563eb'>Simulation Gen</span></div></div>"]
+        AI["<div style='text-align:center;background:#f8fafc;padding:15px;min-width:240px;border-radius:20px;border:2px solid #94a3b8'><div style='display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:15px'><img src='${LOGO_LANGCHAIN}' width='45' height='45'/><img src='${LOGO_OPENAI}' width='45' height='45'/><img src='${LOGO_LLAMA}' width='45' height='45'/></div><b style='font-size:26px;color:#334155'>AI Systems Core</b><br/><span style='font-size:16px;color:#64748b'>GPT-4o / Llama 3</span></div>"]
     end
 
-    QT{"${NODE_DETAILS.QT.icon} ${NODE_DETAILS.QT.title}"}
-    RR["${NODE_DETAILS.RR.icon} ${NODE_DETAILS.RR.title}"]
-    SB["${NODE_DETAILS.SB.icon} ${NODE_DETAILS.SB.title}"]
-    AI["${NODE_DETAILS.AI.icon} ${NODE_DETAILS.AI.title}"]
-    SE["${NODE_DETAILS.SE.icon} ${NODE_DETAILS.SE.title}"]
-    P2C["${NODE_DETAILS.P2C.icon} ${NODE_DETAILS.P2C.title}"]
-
-    subgraph OutputNodes ["Engineering Artifacts"]
-        F["${NODE_DETAILS.F.icon} ${NODE_DETAILS.F.title}"]
-        G["${NODE_DETAILS.G.icon} ${NODE_DETAILS.G.title}"]
-        H["${NODE_DETAILS.H.icon} ${NODE_DETAILS.H.title}"]
-        I["${NODE_DETAILS.I.icon} ${NODE_DETAILS.I.title}"]
+    subgraph OutputLayer [" 📤 Output Delivery Plane "]
+        style OutputLayer fill:#f0f9ff,stroke:#7dd3fc,stroke-width:2px,stroke-dasharray: 5 5
+        F["<div style='text-align:center;background:#f8fafc;padding:10px;border-radius:12px;border:1px solid #7dd3fc'><div style='font-size:28px'>✅</div><b style='font-size:24px;color:#0369a1'>Code Reviews</b></div>"]
+        G["<div style='text-align:center;background:#f8fafc;padding:10px;border-radius:12px;border:1px solid #7dd3fc'><div style='font-size:28px'>🔍</div><b style='font-size:24px;color:#0369a1'>Log Triage</b></div>"]
+        H["<div style='text-align:center;background:#f8fafc;padding:10px;border-radius:12px;border:1px solid #7dd3fc'><div style='font-size:28px'>🧬</div><b style='font-size:24px;color:#0369a1'>TV Generation</b></div>"]
+        I["<div style='text-align:center;background:#f8fafc;padding:10px;border-radius:12px;border:1px solid #7dd3fc'><div style='font-size:28px'>💻</div><b style='font-size:24px;color:#0369a1'>Code Gen</b></div>"]
     end
 
-    U <--> CACHE
-    CACHE <--> SB
-    SB <--> QT
+    A --> SC
+    B --> SC
+    C --> SC
+    D --> SC
+    E1 --> SK
+    E2 --> SK
+    E3 --> SK
+    E1 --> SC
+    E2 --> SC
+    E3 --> SC
+    U --> CACHE
+    CACHE --> U
+    CACHE --> SB
+    SB --> U
+    SB --> AI
+    AI --> SB
+    SB --> SE
+    SE --> SB
+    SE --> QT
+    SB --> QT
     QT --> SC
     QT --> SK
     SC --> RR
     SK --> RR
     RR --> SB
-    SB <--> AI
-    SB <--> SE
+    C --> P2C
+    E1 --> P2C
+    P2C --> SB
     SB --> F
     SB --> G
     SB --> H
     SB --> I
-    SB --> U
-    C --> P2C
-    E1 --> P2C
-    P2C --> SB
-    
-    A --> SC
-    B --> SC
-    D --> SC
-    E1 --> SK
-    E2 --> SK
-    E3 --> SK
-
-    classDef default font-family:ui-sans-serif, system-ui, sans-serif, font-weight:700;
 `;
 
 export const SEQUENCE_DIAGRAM_DEFINITION = `
 sequenceDiagram
     autonumber
-    participant U as Developer
-    participant C as Cache
-    participant SB as Orchestrator
-    participant QT as Router
-    participant SC as VectorDB
-    participant SK as GraphDB
-    participant AI as LLM Core
-    participant SE as Auditor
-
-    U->>C: Submit Query
+    actor U as End User
+    participant C as Semantic Cache
+    participant O as Orchestrator
+    participant P as Paper2Code
+    participant R as Router
+    participant V as Vector DB
+    participant K as Knowledge Graph
+    participant RR as Reranker
+    participant G as Grader
+    
+    U->>C: Query
     alt Cache Hit
-        C-->>U: Cached Response (200ms)
+        C-->>U: Cached Response
     else Cache Miss
-        C->>SB: Forward Intent
-        SB->>QT: Identify Silos
-        par
-            QT->>SC: Vector Retrieval
-            QT->>SK: Graph Traversal
+        C->>O: Forward
+        O->>R: Route
+        par Parallel
+            R->>V: Vector Search
+            R->>K: Graph Search
+            R->>P: Extract Logic from PDF
         end
-        SC-->>SB: Unstructured Context
-        SK-->>SB: Formal Triples
-        SB->>AI: Generate Draft
-        AI-->>SB: Raw Response
-        SB->>SE: Audit against Ground Truth
-        alt Hallucination Detected
-            SE->>SB: Reject & Feedback
-            SB->>AI: Re-generate with constraints
-        end
-        SE-->>SB: Verified Approval
-        SB-->>U: Delivery Verified Artifact
+        V-->>RR: Chunks
+        K-->>RR: Triples
+        P-->>RR: AST Map
+        RR-->>O: Fused Context
+        O->>O: Draft Simulation
+        O->>G: Verify vs Paper Curves
+        G-->>O: OK
+        O-->>U: Output (Code + Graphs)
+        O->>C: Update Cache
     end
 `;

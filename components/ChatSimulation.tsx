@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 
@@ -18,7 +17,7 @@ const ChatSimulation: React.FC<{ onSimulateStep: (n: string[], e: string[][]) =>
 
   const runSim = async (q: { text: string, nodes: string[] }) => {
     setMessages([{ role: 'user', text: q.text }]);
-    for(let i=0; i<q.nodes.length; i++) {
+    for (let i = 0; i < q.nodes.length; i++) {
       onSimulateStep([q.nodes[i]], []);
       await new Promise(r => setTimeout(r, 800));
     }
@@ -55,11 +54,11 @@ const ChatSimulation: React.FC<{ onSimulateStep: (n: string[], e: string[][]) =>
       });
 
       const data = JSON.parse(response.text || '{"nodes":[], "explanation":""}');
-      const nodesToHighlight = data.nodes.filter((n: string) => AVAILABLE_NODES.includes(n));
+      const nodesToHighlight = (data.nodes || []).filter((n: string) => AVAILABLE_NODES.includes(n));
       
       setMessages(prev => [...prev, { role: 'ai', text: data.explanation || "AI-orchestrated workflow activated." }]);
       
-      for(let i=0; i<nodesToHighlight.length; i++) {
+      for (let i = 0; i < nodesToHighlight.length; i++) {
         onSimulateStep([nodesToHighlight[i]], []);
         await new Promise(r => setTimeout(r, 800));
       }

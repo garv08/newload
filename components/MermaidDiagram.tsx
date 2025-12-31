@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mermaid from 'mermaid';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import type { FlowDefinition } from '../constants.ts';
+import { NodeDetail } from '../constants';
 
 // Initialize mermaid with vibrant base theme instead of neutral gray
 mermaid.initialize({
@@ -33,19 +33,26 @@ mermaid.initialize({
   }
 });
 
-type Props = {
-  chart: string;
-  activeFlow: FlowDefinition | null;
-  flowColor: string;
-  onNodeClick: (id: string) => void;
-  height: string;
-};
+export interface FlowDefinition {
+  nodes: string[];
+  edges: string[][];
+}
 
-const MermaidDiagram: React.FC<Props> = ({ 
+interface MermaidDiagramProps {
+  chart: string;
+  activeFlow?: FlowDefinition | null;
+  flowColor?: string;
+  onNodeClick?: (nodeId: string) => void;
+  nodeDetails?: Record<string, NodeDetail>;
+  height?: string;
+}
+
+const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ 
   chart, 
   activeFlow, 
   flowColor = '#3b82f6', 
   onNodeClick, 
+  nodeDetails,
   height = "520px"
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);

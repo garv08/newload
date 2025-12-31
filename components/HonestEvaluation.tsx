@@ -1,4 +1,3 @@
-
 import React from 'react';
 import MermaidDiagram from './MermaidDiagram';
 
@@ -19,15 +18,15 @@ const EVOLUTION_DIAGRAM = `
     'cScale7': '#99f6e4'
 } } }%%
 timeline
-    title "Cognitive Evolution of RAG Systems"
-    2017 : "Transformer" : "Attention Is All You Need (Vaswani)"
-    2018 : "BERT" : "Bidirectional Grounding"
-    2020 : "GPT-3" : "Parameter Scaling Emergence"
-         : "RAG" : "Retrieval Contextualization (Lewis)"
-    2022 : "CoT" : "Chain of Thought Reasoning (Wei)"
-    2023 : "Toolformer" : "Autonomous API Interactions"
-    2024 : "CRAG" : "Corrective RAG Loops (Yan)"
-    2025 : "Agentic RAG" : "Multi-Silo Knowledge Orchestration"
+    title Cognitive Evolution of RAG Systems
+    2017 : Transformer : Attention Is All You Need (Vaswani)
+    2018 : BERT : Bidirectional Grounding
+    2020 : GPT-3 : Parameter Scaling Emergence
+         : RAG : Retrieval Contextualization (Lewis)
+    2022 : CoT : Chain of Thought Reasoning (Wei)
+    2023 : Toolformer : Autonomous API Interactions
+    2024 : CRAG : Corrective RAG Loops (Yan)
+    2025 : Agentic RAG : Multi-Silo Knowledge Orchestration
 `;
 
 const HonestEvaluation: React.FC<HonestEvaluationProps> = ({ onBack }) => {
@@ -40,6 +39,7 @@ const HonestEvaluation: React.FC<HonestEvaluationProps> = ({ onBack }) => {
         .lit-card:hover { transform: translateY(-2px); border-color: #9333ea; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .section-tag { font-family: 'ui-sans-serif', 'system-ui', 'sans-serif'; font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: #94a3b8; }
         
+        /* Force bold font for mermaid timeline text */
         .mermaid svg text {
           font-weight: 900 !important;
         }
@@ -48,6 +48,7 @@ const HonestEvaluation: React.FC<HonestEvaluationProps> = ({ onBack }) => {
         }
       `}</style>
 
+      {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200 px-8 py-4 flex items-center justify-between shadow-sm">
         <button 
           onClick={onBack} 
@@ -74,23 +75,18 @@ const HonestEvaluation: React.FC<HonestEvaluationProps> = ({ onBack }) => {
             </p>
         </header>
 
+        {/* Timeline Section */}
         <section className="mb-24">
             <h2 className="section-tag mb-10 text-center">The Historical Convergence of AI & Specs</h2>
             <div className="bg-white rounded-[2rem] p-6 md:p-12 shadow-2xl border border-slate-100 mb-16 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-blue-500"></div>
-                {/* Fixed missing props: activeFlow, flowColor, onNodeClick */}
-                <MermaidDiagram 
-                  chart={EVOLUTION_DIAGRAM} 
-                  height="480px" 
-                  activeFlow={null} 
-                  flowColor="#9333ea" 
-                  onNodeClick={() => {}} 
-                />
+                <MermaidDiagram chart={EVOLUTION_DIAGRAM} height="480px" />
                 <div className="mt-8 text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">
                     Figure 1.0: Evolution from Attention (2017) to Agentic RAG (2025)
                 </div>
             </div>
 
+            {/* Citations Grid */}
             <h2 className="section-tag mb-10 text-center">Key Academic Milestones</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
@@ -125,6 +121,7 @@ const HonestEvaluation: React.FC<HonestEvaluationProps> = ({ onBack }) => {
             </div>
         </section>
 
+        {/* Synthesis Section */}
         <section className="bg-slate-950 text-white rounded-[3rem] p-12 md:p-24 shadow-2xl relative overflow-hidden">
              <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]"></div>
              <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px]"></div>

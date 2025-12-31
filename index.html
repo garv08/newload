@@ -27,6 +27,7 @@
         border-radius: 0px;
         display: inline-block;
       }
+      /* Ensure Mermaid edges are visible and well-styled */
       .mermaid svg g.edgePath path {
         stroke-width: 3px !important;
         stroke: #64748b !important;
@@ -49,6 +50,7 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
+      /* KaTeX Customization */
       .katex-display {
         margin: 1em 0;
         overflow-x: auto;
@@ -63,7 +65,7 @@
     "react-dom": "https://esm.sh/react-dom@18.3.1",
     "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
     "mermaid": "https://esm.sh/mermaid@11.4.0",
-    "react-zoom-pan-pinch": "https://esm.sh/react-zoom-pan-pinch@3.4.4",
+    "react-zoom-pan-pinch": "https://esm.sh/react-zoom-pan-pinch@3.4.4?external=react,react-dom",
     "@google/genai": "https://esm.sh/@google/genai@1.33.0",
     "katex": "https://esm.sh/katex@0.16.11",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
@@ -71,14 +73,11 @@
   }
 }
 </script>
-    <script>
-      if (!HTMLScriptElement.supports || !HTMLScriptElement.supports('importmap')) {
-        alert('Your browser does not support import maps. Please use a modern browser like Chrome, Edge, or the latest Firefox (v102+).');
-      }
-    </script>
-  </head>
+  <link rel="stylesheet" href="/index.css">
+</head>
   <body class="bg-neutral-100 text-neutral-900 overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
